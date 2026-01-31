@@ -68,7 +68,33 @@ NUM_EPOCHS = 3           # Training epochs (1-10)
 BATCH_SIZE = 4           # Batch size (1-8)
 LEARNING_RATE = 2e-4     # Learning rate
 CHECKPOINT_PATH = ""     # For continue mode: "username/model-name"
+PUSH_TO_HUB = True       # Auto-backup during training
 ```
+
+---
+
+## 💾 Backup & Versioning
+
+### How It Works
+
+| Action | Branch | When |
+|--------|--------|------|
+| Auto-backup | `backup` | Every 200 steps during training |
+| Official release | `main` | Manual (cell 4.5) |
+
+### Workflow
+
+```
+Training → Auto-backups to "backup" branch (many commits, deletable)
+Happy?   → Push official to "main" branch (clean, 1 commit)
+Cleanup  → Delete "backup" branch (optional, frees storage)
+```
+
+### Benefits
+
+- **Main branch stays clean** - only official releases
+- **Safe training** - max ~5 min lost if crash
+- **Easy cleanup** - delete backup branch anytime
 
 ---
 
