@@ -128,13 +128,25 @@ model, tokenizer = load_base_model()            # Fresh start
 model, tokenizer = load_checkpoint('user/model') # Continue training
 model = setup_lora(model)                        # Configure LoRA
 
-# Train
+# Train (with auto-backup to "backup" branch)
 train_ds = prepare_dataset(train_data, tokenizer)
-trainer = train_model(model, tokenizer, train_ds, val_ds)
+trainer = train_model(model, tokenizer, train_ds, val_ds,
+                      push_to_hub=True, hub_model_id='user/model')
 
 # Translate
 result = translate_es_to_arn('Hola', model, tokenizer)
 result = translate_arn_to_es('Mari mari', model, tokenizer)
+```
+
+---
+
+## 📊 TensorBoard
+
+TensorBoard logging is enabled by default. To view training graphs in Colab:
+
+```python
+%load_ext tensorboard
+%tensorboard --logdir ./mapudungun-translator
 ```
 
 ---
